@@ -1,16 +1,10 @@
-import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
+import { sequelize } from './config';
+import User from './user';
+import Contact from './contact';
 
-dotenv.config();
+const models = {
+  User,
+  Contact,
+};
 
-const sequelize = new Sequelize({
-  dialect: 'postgres',
-  host: process.env.DB_HOST,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: Number(process.env.DB_PORT),
-  logging: false,
-});
-
-export default sequelize;
+export { sequelize, models };
