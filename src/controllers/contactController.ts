@@ -1,20 +1,21 @@
 import { Request, Response } from 'express';
 import User from '../models/user';
 import Contact from '../models/contact';
+import { AuthRequest } from '../middleware/auth';
 
-export const addContact = async (req: Request, res: Response):Promise<void> => {
+
+export const addContact = async (req: AuthRequest, res: Response):Promise<void> => {
   try {
     const { username } = req.body;
-    const userId = 1; // Тимчасово захардкодимо userId (поки немає JWT middleware)
+    console.log('userId', req.user);
+    const userId = req.user!.userId;
 
-    // Знайти контакт за username
     const contactUser = await User.findOne({ where: { username } });
     if (!contactUser) {
       res.status(404).json({ message: 'User not found' });
       return;
     }
 
-    // Перевірка, чи контакт уже доданий
     const existingContact = await Contact.findOne({
       where: { user_id: userId, contact_id: contactUser.id },
     });
@@ -23,7 +24,6 @@ export const addContact = async (req: Request, res: Response):Promise<void> => {
       return;
     }
 
-    // Додавання контакту
     const contact = await Contact.create({
       user_id: userId,
       contact_id: contactUser.id,
@@ -36,9 +36,9 @@ export const addContact = async (req: Request, res: Response):Promise<void> => {
   }
 };
 
-export const getContacts = async (req: Request, res: Response) => {
+export const getContacts = async (req: AuthRequest, res: Response) => {
   try {
-    const userId = 1; // Тимчасово захардкодимо (поки немає JWT)
+    const userId = req.user!.userId;
 
     const contacts = await Contact.findAll({
       where: { user_id: userId },

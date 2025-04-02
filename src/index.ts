@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { sequelize } from "./models";
 import authRoutes from './routes/authRoutes';
 import contactRoutes from './routes/contactRoutes';
+import messageRoutes from './routes/messageRoutes';
 
 dotenv.config();
 const app = express();
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/contacts', contactRoutes);
+app.use('/messages', messageRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Chat Backend is running!");
