@@ -1,6 +1,22 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Association } from 'sequelize';
 import { sequelize } from './index';
+import { Room } from './user_room';
 
+/*
+  User.associate = (models) => {
+
+  User.belongsToMany(models.Room, {
+
+    through: 'UserRooms',
+
+    as: 'rooms',
+
+    foreignKey: 'userId',
+
+  });
+
+};
+*/
 class User extends Model {
   public id!: number;
   public username!: string;
@@ -8,6 +24,19 @@ class User extends Model {
   public password!: string;
   public online!: boolean;
   public created_at!: Date;
+  public static associations: {
+    rooms: Association<User, Room>;
+  };
+  public static associate(models: any) {
+    User.belongsToMany(models.Room, {
+      through: 'UserRoom',
+      foreignKey: 'user_id',
+      as: 'rooms',
+    });
+  }
+  public async addRoom(room: Room): Promise<void> {
+    await (this as any).addRooms(room);
+  }
 }
 
 User.init(

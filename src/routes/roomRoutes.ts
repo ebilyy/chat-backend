@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { addContact, getContacts } from '../controllers/contactController';
+import { addContact, getContacts } from '../controllers/roomController';
 import { authenticateToken } from '../middleware/auth';
 
 const router = Router();

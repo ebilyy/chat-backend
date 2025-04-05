@@ -36,12 +36,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
+    console.log('Login attempt with email:', email);
     const user = await User.findOne({ where: { email } });
     if (!user) {
       res.status(400).json({ message: 'Invalid email or password' });
       return;
     }
-
+    console.log('Login attempt user:', user);
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(400).json({ message: 'Invalid email or password' });

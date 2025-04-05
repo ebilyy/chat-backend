@@ -1,11 +1,11 @@
 import { sequelize } from './config';
-import User from './user';
-import Contact from './contact';
+import {User, Room} from './user_room';
+// import Contact from './room';
 import Message from './message';
 
 const models = {
   User,
-  Contact,
+  Room,
   Message,
 };
 
