@@ -37,6 +37,9 @@ class User extends Model {
   public async addRoom(room: Room): Promise<void> {
     await (this as any).addRooms(room);
   }
+  public async removeRoom(room: Room): Promise<void> {
+    await (this as any).removeRooms(room);
+  }
 }
 
 User.init(
